@@ -37,6 +37,8 @@ module Jira4R
         puts "Service: #{service_classname}"
         service = eval(service_classname)
         @driver = service.send(:new, @endpoint_url)
+        # Ignore SSL Certs that are Self Signed or Signed by a None Standard CA
+        @driver.options['protocol.http.ssl_config.verify_mode'] = OpenSSL::SSL::VERIFY_NONE
       end
       @driver
     end
